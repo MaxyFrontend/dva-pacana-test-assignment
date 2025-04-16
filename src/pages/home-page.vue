@@ -1,5 +1,7 @@
-<script setup lang="ts"></script>
+<script setup lang="ts">
+import { ItemsSection } from '@/components/sections/items'
+</script>
 
 <template>
-    <div></div>
+    <ItemsSection />
 </template>
