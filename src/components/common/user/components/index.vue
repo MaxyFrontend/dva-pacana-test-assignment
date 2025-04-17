@@ -3,7 +3,6 @@ import { UserSelectedItemsList } from './selected-items-list'
 import { UserSelectedItem } from './selected-item'
 import { UserItems } from './items'
 import { GroupBlock } from '@/components/ui'
-import { computed } from 'vue'
 import type { ItemsList } from '@/types/items'
 import type { ChooseType } from '../types/chooseType'
 
@@ -11,10 +10,6 @@ const props = defineProps<{
     items: ItemsList
     chooseType: ChooseType
 }>()
-
-const selectedItemsList = computed(() => {
-    return props.items.filter((item) => item.isSelected)
-})
 
 const itemSelect = (id: number) => {
     if (props.chooseType === 'multiple') {
@@ -36,12 +31,11 @@ const itemRemove = (id: number) => {
 </script>
 
 <template>
-    <groupBlock :class="s.mainBlock">
+    <GroupBlock :class="s.mainBlock">
         <UserSelectedItemsList
             v-if="props.chooseType === 'multiple'"
             :class="s.itemBlock"
             :items-list="props.items"
-            :selected-items-list
             @item-remove="itemRemove"
         />
         <UserSelectedItem
@@ -54,7 +48,7 @@ const itemRemove = (id: number) => {
             :choose-type="props.chooseType"
             @item-select="itemSelect"
         />
-    </groupBlock>
+    </GroupBlock>
 </template>
 
 <style lang="scss" module="s">

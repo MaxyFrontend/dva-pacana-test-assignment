@@ -5,11 +5,14 @@ import type { ItemsList } from '@/types/items'
 
 const props = defineProps<{
     itemsList: ItemsList
-    selectedItemsList: ItemsList
 }>()
 
+const selectedItemsList = computed(() => {
+    return props.itemsList.filter((item) => item.isSelected)
+})
+
 const selectedStats = computed(() => {
-    return `selected: ${props.selectedItemsList.length} / ${props.itemsList.length}`
+    return `selected: ${selectedItemsList.value.length} / ${props.itemsList.length}`
 })
 
 const emit = defineEmits<{
@@ -20,7 +23,7 @@ const emit = defineEmits<{
 <template>
     <BaseBlock :class="s.list">
         <Item
-            v-for="item in props.selectedItemsList"
+            v-for="item in selectedItemsList"
             :key="item.id"
             :class="s.item"
             :removable="true"
