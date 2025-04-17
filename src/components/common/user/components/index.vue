@@ -3,7 +3,7 @@ import { UserSelectedItemsList } from './selected-items-list'
 import { UserSelectedItem } from './selected-item'
 import { UserItems } from './items'
 import { GroupBlock } from '@/components/ui'
-import { ref } from 'vue'
+import { computed } from 'vue'
 import type { ItemsList } from '@/types/items'
 import type { ChooseType } from '../types/chooseType'
 
@@ -12,14 +12,15 @@ const props = defineProps<{
     chooseType: ChooseType
 }>()
 
-const selectedItemsList = ref<ItemsList>([])
+const selectedItemsList = computed(() => {
+    return props.items.filter((item) => item.isSelected)
+})
 
 const itemSelect = (id: number) => {
     if (props.chooseType === 'multiple') {
         const item = props.items.find((item) => item.id === id)
         if (!item) return
         item.isSelected = true
-        selectedItemsList.value.push(item)
     } else if (props.chooseType === 'single') {
         props.items.forEach((item) => {
             item.isSelected = item.id === id
@@ -28,10 +29,9 @@ const itemSelect = (id: number) => {
 }
 
 const itemRemove = (id: number) => {
-    const item = selectedItemsList.value.find((item) => item.id === id)
+    const item = props.items.find((item) => item.id === id)
     if (!item) return
     item.isSelected = false
-    selectedItemsList.value.splice(selectedItemsList.value.indexOf(item), 1)
 }
 </script>
 
